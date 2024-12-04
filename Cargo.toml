@@ -15,12 +15,20 @@ api = { path = "api" }
 kernel = { path = "kernel" }
 shared = { path = "shared" }
 registry = { path = "registry" }
-axum = "0.7.4"
+axum = { version = "0.7.4", features = ["macros"] }
 serde = { version = "1.0", features = ["derive"] }
 chrono = { version = "0.4.38", features = ["serde"] } 
 sqlx = { version = "0.8.2", features = ["chrono", "postgres", "macros", "runtime-tokio-rustls"] }
 thiserror = "1"
 tracing = "0.1.41"
+uuid = "1.11.0"
+garde = "0.20.0"
+redis = "0.27.6"
+anyhow = "1.0.76"
+async-trait = "0.1.83"
+derive-new = "0.7.0"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+strum = { version = "0.26.0", features = ["derive"] }
 
 [dependencies]
 adapter.workspace = true
@@ -28,6 +36,10 @@ api.workspace = true
 kernel.workspace = true
 shared.workspace = true
 registry.workspace = true
-tower-http = { version = "0.6.1", features = ["cors"] }
+tracing.workspace = true
+axum.workspace = true
+anyhow.workspace = true
+tracing-subscriber.workspace = true
+tower-http = { version = "0.6.1", features = ["cors", "trace"] }
 dotenvy = "0.15.7"
 tokio = { version = "1.36.0", features = ["full"] }

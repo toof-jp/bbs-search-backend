@@ -1,4 +1,5 @@
 use chrono::NaiveDate;
+use kernel::model::search::SearchOptions;
 use serde::{Deserialize, Deserializer};
 
 #[derive(Debug, Deserialize)]
@@ -31,5 +32,30 @@ where
         Some(s) => NaiveDate::parse_from_str(s, FORMAT)
             .map(Some)
             .map_err(serde::de::Error::custom),
+    }
+}
+
+impl From<SearchRequest> for SearchOptions {
+    fn from(params: SearchRequest) -> Self {
+        let cursor =
+            params
+                .cursor
+                .unwrap_or(if params.ascending { i32::MIN } else { i32::MAX });
+
+        let since = params
+            .since
+            .unwrap_or_else(|| NaiveDate::from_ymd_opt(-4712, 1, 1).unwrap());
+        let until = params.until.unwrap_or(NaiveDate::MAX);
+
+        SearchOptions {
+            id: params.id,
+            main_text: params.main_text,
+            name_and_trip: params.name_and_trip,
+            cursor,
+            ascending: params.ascending,
+            oekaki: params.oekaki,
+            since: since.and_hms_opt(0, 0, 0).unwrap(),
+            until: until.and_hms_opt(23, 59, 59).unwrap(),
+        }
     }
 }

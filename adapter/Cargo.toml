@@ -4,3 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+sqlx.workspace = true
+anyhow.workspace = true
+shared.workspace = true
+kernel.workspace = true
+async-trait.workspace = true
+chrono.workspace = true
+derive-new.workspace = true

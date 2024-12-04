@@ -2,7 +2,6 @@ use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use thiserror::Error;
 
-// TODO
 #[derive(Error, Debug)]
 pub enum AppError {
     #[error("{0}")]
@@ -19,8 +18,8 @@ pub enum AppError {
     NoRowsAffectedError(String),
     #[error("{0}")]
     KeyValueStoreError(#[from] redis::RedisError),
-    #[error("{0}")]
-    BcryptError(#[from] bcrypt::BcryptError),
+    // TODO #[error("{0}")]
+    // TODO BcryptError(#[from] bcrypt::BcryptError),
     #[error("{0}")]
     ConvertToUuidError(#[from] uuid::Error),
     #[error("ログインに失敗しました")]
@@ -47,7 +46,7 @@ impl IntoResponse for AppError {
             | AppError::SpecificOperationError(_)
             | AppError::NoRowsAffectedError(_)
             | AppError::KeyValueStoreError(_)
-            | AppError::BcryptError(_)
+            //  TODO | AppError::BcryptError(_)
             | AppError::ConversionEntityError(_)) => {
                 tracing::error!(
                 error.cause_chain = ?e,
@@ -61,5 +60,4 @@ impl IntoResponse for AppError {
     }
 }
 
-// エラー型が `AppError` なものを扱える `Result` 型
 pub type AppResult<T> = Result<T, AppError>;

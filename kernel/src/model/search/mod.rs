@@ -1,18 +1,19 @@
-use chrono::{NaiveDate, NaiveDateTime};
+use chrono::NaiveDateTime;
+use serde::Serialize;
 
 #[derive(Debug)]
 pub struct SearchOptions {
     pub id: String,
     pub main_text: String,
     pub name_and_trip: String,
-    pub cursor: Option<i32>,
+    pub cursor: i32,
     pub ascending: bool,
     pub oekaki: bool,
-    pub since: Option<NaiveDate>,
-    pub until: Option<NaiveDate>,
+    pub since: NaiveDateTime,
+    pub until: NaiveDateTime,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Res {
     pub no: i32,
     pub name_and_trip: String,
@@ -26,7 +27,7 @@ pub struct Res {
     pub original_oekaki_res_no: Option<i32>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Count {
     pub total_res_count: i64,
     pub unique_id_count: i64,
